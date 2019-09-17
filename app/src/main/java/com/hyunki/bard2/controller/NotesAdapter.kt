@@ -16,7 +16,7 @@ import com.hyunki.bard2.model.ClickableNote
 
 class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     private var listener: ClickableNoteListener? = null
-    private var selected_position = 0
+    private var selectedPosition = 0
 
     override fun getItemCount(): Int {
         return notesList!!.size
@@ -39,7 +39,7 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
 
     override fun onBindViewHolder(notesViewHolder: NotesViewHolder, i: Int) {
         notesViewHolder.onBind(notesList!![i], listener)
-        notesViewHolder.itemView.setBackgroundColor(if (selected_position == i) Color.LTGRAY else Color.TRANSPARENT)
+        notesViewHolder.itemView.setBackgroundColor(if (selectedPosition == i) Color.LTGRAY else Color.TRANSPARENT)
     }
 
     fun setNotesList(notesList: List<ClickableNote>) {
@@ -58,9 +58,9 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
                 override fun onClick(v: View) {
                     if (adapterPosition == RecyclerView.NO_POSITION) return
 
-                    notifyItemChanged(selected_position)
-                    selected_position = adapterPosition
-                    notifyItemChanged(selected_position)
+                    notifyItemChanged(selectedPosition)
+                    selectedPosition = adapterPosition
+                    notifyItemChanged(selectedPosition)
 
                     listener!!.setCurrentNote(note)
 

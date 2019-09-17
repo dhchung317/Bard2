@@ -18,10 +18,9 @@ import kotlin.concurrent.timerTask
 class SongPlayer(private val context: FragmentActivity?, private val tts: TextToSpeech) {
     private val params = HashMap<String,String>()
     var mp: MediaPlayer? = null
-        private set
     private var playlist: List<Note>? = null
     private var i = 0
-    private var timer: Timer? = null
+    internal var timer: Timer? = null
     private var started = false
 
     init {
