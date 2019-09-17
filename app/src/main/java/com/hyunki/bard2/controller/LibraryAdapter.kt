@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.NonNull
 
 import com.hyunki.bard2.R
 import com.hyunki.bard2.model.Song
@@ -12,27 +13,24 @@ import com.hyunki.bard2.model.Song
 class LibraryAdapter(private var songList: List<Song>?) : RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder>() {
     private var listener: FragmentInteractionListener? = null
 
-    val itemCount: Int
-        @Override
-        get() = songList!!.size()
+    override fun getItemCount(): Int {
+        return songList!!.size
+    }
 
-    @NonNull
-    @Override
-    fun onCreateViewHolder(@NonNull viewGroup: ViewGroup, i: Int): LibraryViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): LibraryViewHolder {
 
-        val child = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.song_itemview, viewGroup, false)
-        val context = viewGroup.getContext()
+        val child = LayoutInflater.from(viewGroup.context).inflate(R.layout.song_itemview, viewGroup, false)
+        val context = viewGroup.context
         if (context is FragmentInteractionListener) {
-            listener = context as FragmentInteractionListener
+            listener = context
         } else {
             throw RuntimeException(context.toString() + context.getString(R.string.fragment_exception_message))
         }
         return LibraryViewHolder(child)
     }
 
-    @Override
-    fun onBindViewHolder(@NonNull libraryViewHolder: LibraryViewHolder, i: Int) {
-        libraryViewHolder.onBind(songList!![i], listener)
+    override fun onBindViewHolder(holder: LibraryViewHolder, position: Int) {
+        holder.onBind(songList!![position],listener)
     }
 
     fun setSongList(songList: List<Song>) {
@@ -41,15 +39,11 @@ class LibraryAdapter(private var songList: List<Song>?) : RecyclerView.Adapter<L
     }
 
     inner class LibraryViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var songTitle: TextView
-
-        init {
-            songTitle = itemView.findViewById(R.id.library_songTitle_textview)
-        }
+        private var songTitle: TextView = itemView.findViewById(R.id.library_songTitle_textview)
 
         fun onBind(song: Song, listener: FragmentInteractionListener?) {
-            songTitle.setText(song.getSongTitle())
-            songTitle.setOnClickListener({ v -> listener!!.displaySong(song) })
+            songTitle.text = song.songTitle
+            songTitle.setOnClickListener { listener!!.displaySong(song) }
         }
     }
 }

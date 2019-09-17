@@ -18,14 +18,11 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
     private var listener: ClickableNoteListener? = null
     private var selected_position = 0
 
-    val itemCount: Int
-        @Override
-        get() = notesList!!.size()
+    override fun getItemCount(): Int {
+        return notesList!!.size
+    }
 
-    @NonNull
-    @Override
-    fun onCreateViewHolder(@NonNull viewGroup: ViewGroup, i: Int): NotesViewHolder {
-
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NotesViewHolder {
         val child = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.note_itemview, viewGroup, false)
         val context = viewGroup.getContext()
         if (context is ClickableNoteListener) {
@@ -37,9 +34,10 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
         return NotesViewHolder(child)
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.P)
-    @Override
-    fun onBindViewHolder(@NonNull notesViewHolder: NotesViewHolder, i: Int) {
+
+    override fun onBindViewHolder(notesViewHolder: NotesViewHolder, i: Int) {
         notesViewHolder.onBind(notesList!![i], listener)
         notesViewHolder.itemView.setBackgroundColor(if (selected_position == i) Color.LTGRAY else Color.TRANSPARENT)
     }
@@ -49,30 +47,24 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
         notifyDataSetChanged()
     }
 
-    inner class NotesViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var noteName: TextView
-        internal var noteImage: ImageView
-
-        init {
-            noteName = itemView.findViewById(R.id.noteName_textview)
-            noteImage = itemView.findViewById(R.id.note_imageView)
-        }
+    inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var noteName: TextView = itemView.findViewById(R.id.noteName_textview)
+        private var noteImage: ImageView = itemView.findViewById(R.id.note_imageView)
 
         fun onBind(note: ClickableNote, listener: ClickableNoteListener?) {
-            noteName.setText(note.getNote())
-            noteImage.setImageResource(note.getImgSrc())
-            itemView.setOnClickListener(object : View.OnClickListener() {
-                @Override
-                fun onClick(v: View) {
-                    if (getAdapterPosition() === RecyclerView.NO_POSITION) return
+            noteName.text = note.note
+            noteImage.setImageResource(note.imgSrc)
+            itemView.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (adapterPosition == RecyclerView.NO_POSITION) return
 
                     notifyItemChanged(selected_position)
-                    selected_position = getAdapterPosition()
+                    selected_position = adapterPosition
                     notifyItemChanged(selected_position)
 
                     listener!!.setCurrentNote(note)
 
-                    val mp = MediaPlayer.create(itemView.getContext(), note.getRawNote())
+                    val mp = MediaPlayer.create(itemView.context, note.rawNote)
                     mp.seekTo(600)
                     mp.start()
                 }
