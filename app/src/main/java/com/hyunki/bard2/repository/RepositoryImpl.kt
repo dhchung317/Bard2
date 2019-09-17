@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 
 class RepositoryImpl(application: Application) : Repository {
     private val database: Database = Database(application)
+
     val songList: LiveData<List<Song>>
         get() = database.allSongs
 
@@ -20,7 +21,7 @@ class RepositoryImpl(application: Application) : Repository {
         return database.getSong(songTitle)
     }
 
-    override fun deleteSong(song: Song) {
-        database.deleteSong(song.songTitle)
+    override fun deleteSong(song: Song?) {
+        database.deleteSong(song!!.songTitle)
     }
 }

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
 
         val drop = Animations.getDropImageAnimation(mainActivity_splash_imageView)
-        drop.setAnimationListener(object : Animation.AnimationListener{
+        drop?.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationStart(animation: Animation?) = Unit
             override fun onAnimationEnd(animation: Animation) {
                 splash.visibility = View.INVISIBLE

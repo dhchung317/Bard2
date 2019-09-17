@@ -53,7 +53,7 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
 
         fun onBind(note: ClickableNote, listener: ClickableNoteListener?) {
             noteName.text = note.note
-            noteImage.setImageResource(note.imgSrc)
+            noteImage.setImageResource(note.imgSrc!!)
             itemView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View) {
                     if (adapterPosition == RecyclerView.NO_POSITION) return
@@ -64,7 +64,7 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
 
                     listener!!.setCurrentNote(note)
 
-                    val mp = MediaPlayer.create(itemView.context, note.rawNote)
+                    val mp = MediaPlayer.create(itemView.context, note.rawNote!!)
                     mp.seekTo(600)
                     mp.start()
                 }
