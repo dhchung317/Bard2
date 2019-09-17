@@ -5,15 +5,10 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
@@ -23,8 +18,7 @@ import com.hyunki.bard2.SongPlayer
 import com.hyunki.bard2.controller.FragmentInteractionListener
 import com.hyunki.bard2.viewmodel.ViewModel
 import com.hyunki.bard2.model.Song
-
-import java.util.Objects
+import kotlinx.android.synthetic.main.fragment_song.*
 
 class SongFragment : Fragment(), View.OnClickListener {
     private var listener: FragmentInteractionListener? = null
@@ -32,17 +26,6 @@ class SongFragment : Fragment(), View.OnClickListener {
     private var tts: TextToSpeech? = null
     private var player: SongPlayer? = null
     private var song: Song? = null
-
-    @BindView(R.id.songFragment_displayNotes_textview)
-    internal var displayNotes: TextView? = null
-    @BindView(R.id.songFragment_songTitle_textview)
-    internal var songTitle: TextView? = null
-    @BindView(R.id.songFragment_play_button)
-    internal var playButton: Button? = null
-    @BindView(R.id.songFragment_exit_button)
-    internal var deleteButton: Button? = null
-    @BindView(R.id.songFragment_delete_button)
-    internal var exitButton: Button? = null
 
    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,14 +49,12 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this, view)
         var displayNotesString: String? = null
-        val args = getArguments()
+        val args = arguments!!
 
-        assert(args != null)
-        song = args!!.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)
+        song = args.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)
 
-        assert(song != null)
+        assert(song != null) { "Assertion failed" }
         for (n in song!!.songNotes) {
             if (displayNotesString == null) {
                 displayNotesString = "${n.note} "
@@ -82,8 +63,12 @@ class SongFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        displayNotes!!.text = displayNotesString
-        songTitle!!.text = song!!.songTitle
+        songFragment_displayNotes_textview!!.text = displayNotesString
+        songFragment_songTitle_textview!!.text = song!!.songTitle
+
+        songFragment_delete_button.setOnClickListener(this)
+        songFragment_exit_button.setOnClickListener(this)
+        songFragment_play_button.setOnClickListener(this)
     }
 
     private fun deleteSong(song: Song?) {
@@ -104,15 +89,14 @@ class SongFragment : Fragment(), View.OnClickListener {
         player!!.playSong(viewModel!!.getSong(song.songTitle))
         if (player!!.mp != null) {
             while (player!!.mp!!.isPlaying) {
-                playButton!!.isEnabled = false
+                songFragment_play_button!!.isEnabled = false
             }
         }
-        playButton!!.isEnabled = true
+        songFragment_play_button!!.isEnabled = true
     }
 
-    @OnClick(R.id.songFragment_play_button, R.id.songFragment_delete_button, R.id.songFragment_exit_button)
-    override fun onClick(v: View) {
-        when (v.id) {
+    override fun onClick(v: View?) {
+        when (v?.id) {
             R.id.songFragment_play_button -> playSong(song!!)
             R.id.songFragment_delete_button -> deleteSong(song)
             R.id.songFragment_exit_button -> exitSongFragment()
@@ -129,7 +113,6 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     companion object {
         private const val SONG_FRAGMENT_BUNDLE_KEY = "song"
-
 
         fun newInstance(song: Song): SongFragment {
             val bundle = Bundle()

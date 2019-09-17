@@ -8,9 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 
 import com.hyunki.bard2.R
@@ -23,13 +20,9 @@ import com.hyunki.bard2.viewmodel.ViewModel
 
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_compose.*
 
 import java.util.ArrayList
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 
 class ComposeFragment : Fragment(), View.OnClickListener {
     private var listener: FragmentInteractionListener? = null
@@ -40,25 +33,6 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     private var defaultDuration: String? = null
     private var adapter: NotesAdapter? = null
     private val clickableNotes = ArrayList<ClickableNote>()
-
-    @BindView(R.id.composeFragment_songTitle_editText)
-    internal var songTitle: EditText? = null
-    @BindView(R.id.composeFragment_syllable_editText)
-    internal var syllable: EditText? = null
-    @BindView(R.id.composeFragment_duration_editText)
-    internal var durationInput: EditText? = null
-    @BindView(R.id.composeFragment_displayCurrentNotes_textView)
-    internal var currentNotes: TextView? = null
-    @BindView(R.id.compose_recyclerview)
-    internal var noteRecycler: RecyclerView? = null
-    @BindView(R.id.composeFragment_addNote_button)
-    internal var addNotes: Button? = null
-    @BindView(R.id.composeFragment_deleteNote_button)
-    internal var deleteNotes: Button? = null
-    @BindView(R.id.composeFragment_addSong_button)
-    internal var addSong: Button? = null
-    @BindView(R.id.composeFragment_library_button)
-    internal var gotoLibrary: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,11 +53,10 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this, view)
         song = Song()
         adapter = NotesAdapter(clickableNotes)
-        noteRecycler!!.adapter = adapter
-        noteRecycler!!.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        compose_recyclerview!!.adapter = adapter
+        compose_recyclerview!!.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         val noteRes = resources.getStringArray(R.array.spinner_array)
         for (i in 0 until noteRes.size) {
             clickableNotes.add(ClickableNote(
@@ -102,6 +75,11 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         }
         viewModel!!.currentNote = clickableNotes[0]
         adapter!!.setNotesList(clickableNotes)
+
+        composeFragment_addSong_button.setOnClickListener(this)
+        composeFragment_addNote_button.setOnClickListener(this)
+        composeFragment_deleteNote_button.setOnClickListener(this)
+        composeFragment_library_button.setOnClickListener(this)
     }
 
     private fun deleteNotes() {
@@ -111,13 +89,13 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
         var onDeleteCurrentNotesDisplay = ""
         for (n in song!!.songNotes) {
-            if (currentNotes!!.text.toString().isEmpty()) {
+            if (composeFragment_displayCurrentNotes_textView!!.text.toString().isEmpty()) {
                 onDeleteCurrentNotesDisplay = n.note + " "
             } else {
                 onDeleteCurrentNotesDisplay += n.note + " "
             }
         }
-        currentNotes!!.text = onDeleteCurrentNotesDisplay
+        composeFragment_displayCurrentNotes_textView!!.text = onDeleteCurrentNotesDisplay
     }
 
     private fun addNotes() {
@@ -129,39 +107,38 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
         var durationI = defaultDuration
 
-        if (durationInput!!.text.toString().isEmpty()) {
+        if (composeFragment_duration_editText!!.text.toString().isEmpty()) {
             Toast.makeText(activity, getString(R.string.no_duration_entered_message), Toast.LENGTH_SHORT).show()
         } else {
-            durationI = durationInput!!.getText().toString()
+            durationI = composeFragment_duration_editText!!.getText().toString()
         }
         song!!.addNote(Note(
                 rawId,
-                syllable!!.text.toString(),
+                composeFragment_syllable_editText!!.text.toString(),
                 Integer.parseInt(durationI),
                 noteName)
         )
-        currentNotes!!.append(String.format("%s ", noteName))
+        composeFragment_displayCurrentNotes_textView!!.append(String.format("%s ", noteName))
     }
 
     private fun addSong() {
-        if (songTitle!!.text.toString().isEmpty()) {
+        if (composeFragment_songTitle_editText!!.text.toString().isEmpty()) {
             Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
-        } else if (viewModel!!.getSong(songTitle!!.text.toString()).songTitle != "") {
+        } else if (viewModel!!.getSong(composeFragment_songTitle_editText!!.text.toString()).songTitle != "") {
             Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
         } else {
-            song!!.songTitle = songTitle!!.text.toString()
+            song!!.songTitle = composeFragment_songTitle_editText!!.text.toString()
             viewModel!!.addSong(song!!)
             Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
         }
     }
 
-    @OnClick(R.id.composeFragment_addSong_button, R.id.composeFragment_deleteNote_button, R.id.composeFragment_library_button, R.id.composeFragment_addNote_button)
-    override fun onClick(v: View) {
-        when (v.id) {
+    override fun onClick(v: View?) {
+        when (v?.id) {
             R.id.composeFragment_addSong_button -> addSong()
             R.id.composeFragment_addNote_button -> addNotes()
             R.id.composeFragment_deleteNote_button -> deleteNotes()
-            R.id.composeFragment_library_button -> listener!!.displayLibrary()
+            R.id.composeFragment_library_button -> listener?.displayLibrary()
         }
     }
 

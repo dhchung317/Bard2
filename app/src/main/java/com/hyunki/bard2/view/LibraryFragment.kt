@@ -4,31 +4,22 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.lifecycle.Observer
 
 import com.hyunki.bard2.R
 import com.hyunki.bard2.viewmodel.ViewModel
 import com.hyunki.bard2.controller.LibraryAdapter
+import kotlinx.android.synthetic.main.fragment_library.*
 
 import java.util.ArrayList
 
-class LibraryFragment : Fragment() {
+class LibraryFragment : Fragment(), View.OnClickListener {
     private var viewModel: ViewModel? = null
     private var adapter: LibraryAdapter? = null
-    @BindView(R.id.libraryFragment_recyclerview)
-    internal var recyclerView: RecyclerView? = null
-    @BindView(R.id.libraryFragment_exit_button)
-    internal var exitLibraryButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +31,18 @@ class LibraryFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this, view)
         adapter = LibraryAdapter(ArrayList())
-        recyclerView!!.adapter = adapter
-        recyclerView!!.layoutManager = LinearLayoutManager(getContext())
+        libraryFragment_recyclerview!!.adapter = adapter
+        libraryFragment_recyclerview!!.layoutManager = LinearLayoutManager(getContext())
         setAdapter()
-        exitLibraryButton!!.setOnClickListener { activity?.onBackPressed() }
+
+        libraryFragment_exit_button.setOnClickListener(this)
+    }
+
+    override fun onClick(v:View?){
+        when(v?.id){
+            R.id.libraryFragment_exit_button -> activity?.onBackPressed()
+        }
     }
 
     private fun setAdapter() {
