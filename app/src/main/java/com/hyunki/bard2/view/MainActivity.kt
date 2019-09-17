@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
-import android.widget.ImageView
 
 import com.hyunki.bard2.Animations
 import com.hyunki.bard2.R
@@ -14,30 +13,33 @@ import com.hyunki.bard2.controller.ClickableNoteListener
 import com.hyunki.bard2.model.ClickableNote
 import com.hyunki.bard2.viewmodel.ViewModel
 import com.hyunki.bard2.controller.FragmentInteractionListener
+import com.hyunki.bard2.databinding.ActivityMainBinding
 import com.hyunki.bard2.model.Song
-import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity(), FragmentInteractionListener, ClickableNoteListener {
+    private lateinit var binding: ActivityMainBinding
     private var viewModel: ViewModel? = null
-    val splash: ImageView by lazy {mainActivity_splash_imageView}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
 
-        val drop = Animations.getDropImageAnimation(mainActivity_splash_imageView)
+        val drop = Animations.getDropImageAnimation(
+                binding.mainActivitySplashImageView)
         drop?.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationStart(animation: Animation?) = Unit
             override fun onAnimationEnd(animation: Animation) {
-                splash.visibility = View.INVISIBLE
+                binding.mainActivitySplashImageView.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MainFragment.newInstance())
                         .commit()
             }
             override fun onAnimationRepeat(animation: Animation) = Unit
         })
-        splash.startAnimation(drop)
+        binding.mainActivitySplashImageView.startAnimation(drop)
     }
 
     override fun displaySong(song: Song) {
