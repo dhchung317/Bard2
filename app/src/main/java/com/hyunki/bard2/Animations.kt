@@ -11,21 +11,21 @@ object Animations {
     private var dropTitle: Animation? = null
     private var popUp: Animation? = null
 
-    fun getDropImageAnimation(v: View): Animation {
+    fun getDropImageAnimation(v: View): Animation? {
         if (dropImage == null) {
             dropImage = AnimationUtils.loadAnimation(v.getContext(), R.anim.drop_image)
         }
         return dropImage
     }
 
-    private fun getDropTitleAnimation(v: View): Animation {
+    private fun getDropTitleAnimation(v: View): Animation? {
         if (dropTitle == null) {
             dropTitle = AnimationUtils.loadAnimation(v.getContext(), R.anim.drop_title)
         }
         return dropTitle
     }
 
-    private fun getPopUpAnimation(v: View): Animation {
+    private fun getPopUpAnimation(v: View): Animation? {
         if (popUp == null) {
             popUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.popup)
         }
@@ -33,10 +33,10 @@ object Animations {
     }
 
     fun setDropTitleAnimation(v: TextView?) {
-        v.startAnimation(getDropTitleAnimation(v))
+        v?.startAnimation(getDropTitleAnimation(v))
     }
 
     fun setPopUpAnimation(v: Button?) {
-        v.startAnimation(getPopUpAnimation(v))
+        v?.startAnimation(getPopUpAnimation(v))
     }
 }
