@@ -20,11 +20,12 @@ import com.hyunki.bard2.viewmodel.ViewModel
 
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_compose.*
+import com.hyunki.bard2.databinding.FragmentComposeBinding
 
 import java.util.ArrayList
 
 class ComposeFragment : Fragment(), View.OnClickListener {
+    private lateinit var binding:FragmentComposeBinding
     private var listener: FragmentInteractionListener? = null
     private var viewModel: ViewModel? = null
     private var song: Song? = null
@@ -38,7 +39,6 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         defaultDuration = "1000"
         viewModel = ViewModelProviders.of(this.activity!!).get(ViewModel::class.java)
-
     }
 
     override fun onAttach(context: Context) {
@@ -48,17 +48,18 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_compose, container, false)
+        binding = FragmentComposeBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         song = Song()
         adapter = NotesAdapter(clickableNotes)
-        compose_recyclerview!!.adapter = adapter
-        compose_recyclerview!!.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.composeRecyclerview.adapter = adapter
+        binding.composeRecyclerview.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         val noteRes = resources.getStringArray(R.array.spinner_array)
-        for (i in 0 until noteRes.size) {
+        for (i in noteRes.indices) {
             clickableNotes.add(ClickableNote(
                     noteRes[i],
                     activity?.resources?.getIdentifier(
@@ -67,7 +68,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
                             activity!!.packageName
                     ),
                     activity?.resources?.getIdentifier(
-                            "alto_" + noteRes.get(i).toLowerCase(),
+                            "alto_" + noteRes[i].toLowerCase(),
                             "drawable",
                             context?.packageName)
 
@@ -76,10 +77,10 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         viewModel!!.currentNote = clickableNotes[0]
         adapter!!.setNotesList(clickableNotes)
 
-        composeFragment_addSong_button.setOnClickListener(this)
-        composeFragment_addNote_button.setOnClickListener(this)
-        composeFragment_deleteNote_button.setOnClickListener(this)
-        composeFragment_library_button.setOnClickListener(this)
+        binding.composeFragmentAddSongButton.setOnClickListener(this)
+        binding.composeFragmentAddNoteButton.setOnClickListener(this)
+        binding.composeFragmentDeleteNoteButton.setOnClickListener(this)
+        binding.composeFragmentLibraryButton.setOnClickListener(this)
     }
 
     private fun deleteNotes() {
@@ -89,13 +90,13 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
         var onDeleteCurrentNotesDisplay = ""
         for (n in song!!.songNotes) {
-            if (composeFragment_displayCurrentNotes_textView!!.text.toString().isEmpty()) {
+            if (binding.composeFragmentDisplayCurrentNotesTextView.text.toString().isEmpty()) {
                 onDeleteCurrentNotesDisplay = n.note + " "
             } else {
                 onDeleteCurrentNotesDisplay += n.note + " "
             }
         }
-        composeFragment_displayCurrentNotes_textView!!.text = onDeleteCurrentNotesDisplay
+        binding.composeFragmentDisplayCurrentNotesTextView.text = onDeleteCurrentNotesDisplay
     }
 
     private fun addNotes() {
@@ -107,36 +108,36 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
         var durationI = defaultDuration
 
-        if (composeFragment_duration_editText!!.text.toString().isEmpty()) {
+        if (binding.composeFragmentDurationEditText.text.toString().isEmpty()) {
             Toast.makeText(activity, getString(R.string.no_duration_entered_message), Toast.LENGTH_SHORT).show()
         } else {
-            durationI = composeFragment_duration_editText!!.getText().toString()
+            durationI = binding.composeFragmentDurationEditText.text.toString()
         }
         song!!.addNote(Note(
                 rawId,
-                composeFragment_syllable_editText!!.text.toString(),
-                Integer.parseInt(durationI),
+                binding.composeFragmentSyllableEditText.text.toString(),
+                Integer.parseInt(durationI.toString()),
                 noteName)
         )
-        composeFragment_displayCurrentNotes_textView!!.append(String.format("%s ", noteName))
+        binding.composeFragmentDisplayCurrentNotesTextView.append(String.format("%s ", noteName))
     }
 
     private fun addSong() {
-
         when {
-            composeFragment_songTitle_editText!!.text.toString().isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
+            binding.composeFragmentSongTitleEditText.text.toString().isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
 
-            viewModel?.getRepository()?.getSong(composeFragment_songTitle_editText.text.toString())?.songTitle
-                    == composeFragment_songTitle_editText.text.toString()
+            viewModel?.getRepository()?.getSong(
+                    binding.composeFragmentSongTitleEditText.text.toString())?.songTitle
+                    == binding.composeFragmentSongTitleEditText.text.toString()
             -> {
-                val logSong = viewModel?.getRepository()?.getSong(composeFragment_songTitle_editText.text.toString())
+                val logSong = viewModel?.getRepository()?.getSong(binding.composeFragmentSongTitleEditText.text.toString())
 
                 Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
 
                 Log.d("get from database",
                         logSong?.songTitle)
             }else -> {
-                song!!.songTitle = composeFragment_songTitle_editText!!.text.toString()
+                song!!.songTitle = binding.composeFragmentSongTitleEditText.text.toString()
                 viewModel!!.addSong(song!!)
                 Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
             }
