@@ -96,7 +96,7 @@ class SongFragment : Fragment(), View.OnClickListener {
     }
 
     private fun exitSongFragment() {
-        Objects.requireNonNull(activity).onBackPressed()
+        activity?.onBackPressed()
     }
 
     private fun playSong(song: Song) {

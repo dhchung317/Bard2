@@ -22,6 +22,6 @@ class RepositoryImpl(application: Application) : Repository {
     }
 
     override fun deleteSong(song: Song?) {
-        database.deleteSong(song.songTitle)
+        database.deleteSong(song!!.songTitle)
     }
 }
