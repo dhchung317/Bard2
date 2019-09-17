@@ -16,7 +16,6 @@ import com.hyunki.bard2.controller.FragmentInteractionListener
 import com.hyunki.bard2.databinding.ActivityMainBinding
 import com.hyunki.bard2.model.Song
 
-
 class MainActivity : AppCompatActivity(), FragmentInteractionListener, ClickableNoteListener {
     private lateinit var binding: ActivityMainBinding
     private var viewModel: ViewModel? = null

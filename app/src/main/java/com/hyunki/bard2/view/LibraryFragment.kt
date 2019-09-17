@@ -13,11 +13,12 @@ import androidx.lifecycle.Observer
 import com.hyunki.bard2.R
 import com.hyunki.bard2.viewmodel.ViewModel
 import com.hyunki.bard2.controller.LibraryAdapter
-import kotlinx.android.synthetic.main.fragment_library.*
+import com.hyunki.bard2.databinding.FragmentLibraryBinding
 
 import java.util.ArrayList
 
 class LibraryFragment : Fragment(), View.OnClickListener {
+    private lateinit var binding: FragmentLibraryBinding
     private var viewModel: ViewModel? = null
     private var adapter: LibraryAdapter? = null
 
@@ -27,16 +28,17 @@ class LibraryFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_library, container, false)
+        binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = LibraryAdapter(ArrayList())
-        libraryFragment_recyclerview!!.adapter = adapter
-        libraryFragment_recyclerview!!.layoutManager = LinearLayoutManager(getContext())
+        binding.libraryFragmentRecyclerview.adapter = adapter
+        binding.libraryFragmentRecyclerview.layoutManager = LinearLayoutManager(getContext())
         setAdapter()
 
-        libraryFragment_exit_button.setOnClickListener(this)
+        binding.libraryFragmentExitButton.setOnClickListener(this)
     }
 
     override fun onClick(v:View?){
