@@ -15,59 +15,49 @@ import com.hyunki.bard2.model.ClickableNote
 import com.hyunki.bard2.viewmodel.ViewModel
 import com.hyunki.bard2.controller.FragmentInteractionListener
 import com.hyunki.bard2.model.Song
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), FragmentInteractionListener, ClickableNoteListener {
     private var viewModel: ViewModel? = null
-    private var splash: ImageView? = null
+    val splash: ImageView by lazy {mainActivity_splash_imageView}
 
-    @Override
-    protected fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        splash = findViewById(R.id.mainActivity_splash_imageView)
-        val drop = Animations.getDropImageAnimation(splash)
-        drop.setAnimationListener(object : Animation.AnimationListener() {
-            @Override
-            fun onAnimationStart(animation: Animation) {
-            }
 
-            @Override
-            fun onAnimationEnd(animation: Animation) {
-                splash!!.setVisibility(View.INVISIBLE)
-                getSupportFragmentManager().beginTransaction()
+        val drop = Animations.getDropImageAnimation(mainActivity_splash_imageView)
+        drop.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationStart(animation: Animation?) = Unit
+            override fun onAnimationEnd(animation: Animation) {
+                splash.visibility = View.INVISIBLE
+                supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MainFragment.newInstance())
                         .commit()
             }
-
-            @Override
-            fun onAnimationRepeat(animation: Animation) {
-            }
+            override fun onAnimationRepeat(animation: Animation) = Unit
         })
-        splash!!.startAnimation(drop)
+        splash.startAnimation(drop)
     }
 
-    @Override
-    fun displaySong(song: Song) {
-        getSupportFragmentManager()
+    override fun displaySong(song: Song) {
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.main_container, SongFragment.newInstance(song))
                 .addToBackStack(SONG_FRAGMENT_KEY)
                 .commit()
     }
 
-    @Override
-    fun displayComposer() {
-        getSupportFragmentManager()
+    override fun displayComposer() {
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.main_container, ComposeFragment.newInstance())
                 .addToBackStack(COMPOSE_FRAGMENT_KEY)
                 .commit()
     }
 
-    @Override
-    fun displayLibrary() {
-        getSupportFragmentManager()
+    override fun displayLibrary() {
+        supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.main_container, LibraryFragment.newInstance())
                 .addToBackStack(LIBRARY_FRAGMENT_KEY)
@@ -75,14 +65,13 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
     }
 
 
-    @Override
-    fun setCurrentNote(note: ClickableNote) {
-        viewModel!!.setCurrentNote(note)
+    override fun setCurrentNote(note: ClickableNote) {
+        viewModel!!.currentNote = note
     }
 
     companion object {
-        val SONG_FRAGMENT_KEY = "displaySong"
-        val COMPOSE_FRAGMENT_KEY = "composeSong"
-        val LIBRARY_FRAGMENT_KEY = "displayLibrary"
+        const val SONG_FRAGMENT_KEY = "displaySong"
+        const val COMPOSE_FRAGMENT_KEY = "composeSong"
+        const val LIBRARY_FRAGMENT_KEY = "displayLibrary"
     }
 }

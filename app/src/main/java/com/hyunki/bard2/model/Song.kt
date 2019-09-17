@@ -7,7 +7,7 @@ import java.util.ArrayList
 
 @Parcelize
 data class Song(
-        val songTitle: String?,
+        val songTitle: String,
         var songNotes:ArrayList<Note> = ArrayList()
 
 ):Parcelable{
