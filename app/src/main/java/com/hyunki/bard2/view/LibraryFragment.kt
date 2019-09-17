@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
+import androidx.lifecycle.Observer
 
 import com.hyunki.bard2.R
 import com.hyunki.bard2.viewmodel.ViewModel
@@ -27,38 +30,29 @@ class LibraryFragment : Fragment() {
     @BindView(R.id.libraryFragment_exit_button)
     internal var exitLibraryButton: Button? = null
 
-    @Override
-    fun onCreate(@Nullable savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
     }
 
-    @Nullable
-    @Override
-    fun onCreateView(@NonNull inflater: LayoutInflater, @Nullable container: ViewGroup, @Nullable savedInstanceState: Bundle): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_library, container, false)
-
     }
-
-    @Override
-    fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ButterKnife.bind(this, view)
         adapter = LibraryAdapter(ArrayList())
-        recyclerView!!.setAdapter(adapter)
-        recyclerView!!.setLayoutManager(LinearLayoutManager(getContext()))
+        recyclerView!!.adapter = adapter
+        recyclerView!!.layoutManager = LinearLayoutManager(getContext())
         setAdapter()
-        exitLibraryButton!!.setOnClickListener({ v -> getActivity().onBackPressed() })
+        exitLibraryButton!!.setOnClickListener { activity?.onBackPressed() }
     }
 
-    fun setAdapter() {
-        if (viewModel!!.getAllSongs() != null) {
-            viewModel!!.getAllSongs().observe(getViewLifecycleOwner(), { songs -> adapter!!.setSongList(songs) })
-        }
+    private fun setAdapter() {
+        viewModel!!.allSongs.observe(this, Observer { adapter!!.setSongList(it) })
     }
 
     companion object {
-
         fun newInstance(): LibraryFragment {
             return LibraryFragment()
         }

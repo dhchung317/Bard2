@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 
 class RepositoryImpl(application: Application) : Repository {
     private val database: Database = Database(application)
+
     val songList: LiveData<List<Song>>
         get() = database.allSongs
 

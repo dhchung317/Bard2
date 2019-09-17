@@ -28,7 +28,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         return repositoryImpl.getSong(songTitle)
     }
 
-    fun deleteSong(song: Song?) {
+    fun deleteSong(song: Song) {
         repositoryImpl.deleteSong(song)
     }
 }
