@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Note(
-        val rawNote:Int = 0,
+        val rawNote: Int? = 0,
         val syllable:String?,
         val duration: Int = 0,
         val note:String?
