@@ -7,8 +7,8 @@ import com.hyunki.bard2.model.Song
 
 import androidx.lifecycle.LiveData
 
-class RepositoryImpl(application: Application) : Repository {
-    private val database: Database = Database(application)
+class RepositoryImpl(application: Application?) : Repository {
+    private val database: Database = Database(application?.applicationContext)
 
     val songList: LiveData<List<Song>>
         get() = database.allSongs

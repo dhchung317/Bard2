@@ -122,14 +122,24 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun addSong() {
-        if (composeFragment_songTitle_editText!!.text.toString().isEmpty()) {
-            Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
-        } else if (viewModel!!.getSong(composeFragment_songTitle_editText!!.text.toString()).songTitle != "") {
-            Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
-        } else {
-            song!!.songTitle = composeFragment_songTitle_editText!!.text.toString()
-            viewModel!!.addSong(song!!)
-            Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
+
+        when {
+            composeFragment_songTitle_editText!!.text.toString().isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
+
+            viewModel?.getRepository()?.getSong(composeFragment_songTitle_editText.text.toString())?.songTitle
+                    == composeFragment_songTitle_editText.text.toString()
+            -> {
+                val logSong = viewModel?.getRepository()?.getSong(composeFragment_songTitle_editText.text.toString())
+
+                Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
+
+                Log.d("get from database",
+                        logSong?.songTitle)
+            }else -> {
+                song!!.songTitle = composeFragment_songTitle_editText!!.text.toString()
+                viewModel!!.addSong(song!!)
+                Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -148,7 +158,6 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     }
 
     companion object {
-
         fun newInstance(): ComposeFragment {
             return ComposeFragment()
         }

@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
                 .commit()
     }
 
-
     override fun setCurrentNote(note: ClickableNote) {
         viewModel!!.currentNote = note
     }

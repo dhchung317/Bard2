@@ -11,7 +11,7 @@ import com.hyunki.bard2.model.Song
 import java.util.ArrayList
 import androidx.lifecycle.MutableLiveData
 
-class Database(@Nullable context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, SCHEMA_VERSION) {
+class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, SCHEMA_VERSION) {
 
     val allSongs: MutableLiveData<List<Song>>
         get() {
@@ -92,13 +92,14 @@ class Database(@Nullable context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun getSong(songName: String): Song {
-        val song = Song(songName)
+        lateinit var song : Song
         var note: Note?
         val checker = readableDatabase.rawQuery(
                 "SELECT * FROM $TABLE_PARENT WHERE song_name = '$songName';", null)
         val cursor = readableDatabase.rawQuery(
                 "SELECT * FROM $TABLE_CHILD WHERE song_name = '$songName';", null)
-        if (checker.getCount() > 0) {
+        if (checker.count > 0) {
+            song = Song(songName)
             if (cursor.moveToFirst()) {
                 do {
                     note = Note(
@@ -109,6 +110,8 @@ class Database(@Nullable context: Context) : SQLiteOpenHelper(context, DATABASE_
                     song.addNote(note)
                 } while (cursor.moveToNext())
             }
+        }else{
+            song = Song("")
         }
         checker.close()
         cursor.close()

@@ -107,6 +107,7 @@ class SongFragment : Fragment(), View.OnClickListener {
         tts!!.shutdown()
         if (player!!.mp != null) {
             player!!.mp!!.release()
+            player!!.timer?.cancel()
         }
         super.onDestroy()
     }
