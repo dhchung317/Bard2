@@ -3,6 +3,8 @@ package com.hyunki.bard2
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.TextView
 
 object Animations {
     private var dropImage: Animation? = null
@@ -30,11 +32,11 @@ object Animations {
         return popUp
     }
 
-    fun setDropTitleAnimation(v: View) {
+    fun setDropTitleAnimation(v: TextView?) {
         v.startAnimation(getDropTitleAnimation(v))
     }
 
-    fun setPopUpAnimation(v: View) {
+    fun setPopUpAnimation(v: Button?) {
         v.startAnimation(getPopUpAnimation(v))
     }
 }

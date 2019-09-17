@@ -7,9 +7,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,22 +27,14 @@ class MainFragment : Fragment(), View.OnClickListener {
     internal var library: Button? = null
     private var listener: FragmentInteractionListener? = null
 
-    @Override
-    fun onAttach(context: Context) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentInteractionListener) {
             listener = context as FragmentInteractionListener
         }
     }
 
-    @Nullable
-    @Override
-    fun onCreateView(@NonNull inflater: LayoutInflater, @Nullable container: ViewGroup, @Nullable savedInstanceState: Bundle): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    @Override
-    fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ButterKnife.bind(this, view)
         logo!!.setImageResource(R.drawable.bardlogo)
@@ -54,8 +44,7 @@ class MainFragment : Fragment(), View.OnClickListener {
     }
 
     @OnClick(R.id.mainFragment_compose_button, R.id.main_songlist_button)
-    @Override
-    fun onClick(v: View) {
+    override fun onClick(v: View) {
         when (v.getId()) {
             R.id.mainFragment_compose_button -> listener!!.displayComposer()
             R.id.main_songlist_button -> listener!!.displayLibrary()
