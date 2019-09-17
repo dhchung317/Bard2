@@ -1,11 +1,11 @@
 package com.hyunki.bard2
 
-import android.content.Context
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 
 import com.hyunki.bard2.model.Note
 import com.hyunki.bard2.model.Song
@@ -14,7 +14,7 @@ import java.util.HashMap
 import java.util.Timer
 import java.util.TimerTask
 
-class SongPlayer(private val context: Context, private val tts: TextToSpeech) {
+class SongPlayer(private val context: FragmentActivity?, private val tts: TextToSpeech) {
     private val params = HashMap()
     var mp: MediaPlayer? = null
         private set

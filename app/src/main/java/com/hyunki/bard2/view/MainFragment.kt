@@ -45,7 +45,7 @@ class MainFragment : Fragment(), View.OnClickListener {
 
     @OnClick(R.id.mainFragment_compose_button, R.id.main_songlist_button)
     override fun onClick(v: View) {
-        when (v.getId()) {
+        when (v.id) {
             R.id.mainFragment_compose_button -> listener!!.displayComposer()
             R.id.main_songlist_button -> listener!!.displayLibrary()
         }

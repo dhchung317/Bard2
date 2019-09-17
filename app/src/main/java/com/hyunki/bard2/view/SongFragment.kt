@@ -15,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 
 import com.hyunki.bard2.R
 import com.hyunki.bard2.SongPlayer
@@ -42,31 +44,27 @@ class SongFragment : Fragment(), View.OnClickListener {
     @BindView(R.id.songFragment_delete_button)
     internal var exitButton: Button? = null
 
-    @Override
-    fun onCreate(@Nullable savedInstanceState: Bundle) {
+   override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
     }
 
-    @Override
-    fun onAttach(@NonNull context: Context) {
+    override fun onAttach(@NonNull context: Context) {
         super.onAttach(context)
         if (context is FragmentInteractionListener) {
-            listener = context as FragmentInteractionListener
+            listener = context
         }
     }
 
     @Nullable
-    @Override
-    fun onCreateView(@NonNull inflater: LayoutInflater, @Nullable container: ViewGroup, @Nullable savedInstanceState: Bundle): View {
-        val rootview = inflater.inflate(R.layout.fragment_song, container, false)
-        tts = TextToSpeech(getActivity()) { status -> }
-        player = SongPlayer(getActivity(), tts)
-        return rootview
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_song, container, false)
+        tts = TextToSpeech(activity) {}
+        player = SongPlayer(activity, tts!!)
+        return rootView
     }
 
-    @Override
-    fun onViewCreated(@NonNull view: View, @Nullable savedInstanceState: Bundle) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ButterKnife.bind(this, view)
         var displayNotesString: String? = null
@@ -76,70 +74,68 @@ class SongFragment : Fragment(), View.OnClickListener {
         song = args!!.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)
 
         assert(song != null)
-        for (n in song!!.getSongNotes()) {
+        for (n in song!!.songNotes) {
             if (displayNotesString == null) {
-                displayNotesString = n.getNote() + " "
+                displayNotesString = "${n.note} "
             } else {
-                displayNotesString += n.getNote() + " "
+                displayNotesString += "${n.note} "
             }
         }
 
-        displayNotes!!.setText(displayNotesString)
-        songTitle!!.setText(song!!.getSongTitle())
+        displayNotes!!.text = displayNotesString
+        songTitle!!.text = song!!.songTitle
     }
 
     private fun deleteSong(song: Song?) {
         viewModel!!.deleteSong(song)
-        Toast.makeText(getActivity(), getString(R.string.song_deleted_message), Toast.LENGTH_SHORT).show()
-        assert(getFragmentManager() != null)
-        getFragmentManager().popBackStack(MainActivity.LIBRARY_FRAGMENT_KEY, 1)
-        getFragmentManager().popBackStack(MainActivity.SONG_FRAGMENT_KEY, 0)
+        Toast.makeText(activity, getString(R.string.song_deleted_message), Toast.LENGTH_SHORT).show()
+        assert(fragmentManager != null)
+        fragmentManager?.popBackStack(MainActivity.LIBRARY_FRAGMENT_KEY, 1)
+        fragmentManager?.popBackStack(MainActivity.SONG_FRAGMENT_KEY, 0)
         listener!!.displayLibrary()
     }
 
     private fun exitSongFragment() {
-        Objects.requireNonNull(getActivity()).onBackPressed()
+        Objects.requireNonNull(activity).onBackPressed()
     }
 
     private fun playSong(song: Song) {
 
-        player!!.playSong(viewModel!!.getSong(song.getSongTitle()))
-        if (player!!.getMp() != null) {
-            while (player!!.getMp().isPlaying()) {
-                playButton!!.setEnabled(false)
+        player!!.playSong(viewModel!!.getSong(song.songTitle))
+        if (player!!.mp != null) {
+            while (player!!.mp!!.isPlaying) {
+                playButton!!.isEnabled = false
             }
         }
-        playButton!!.setEnabled(true)
+        playButton!!.isEnabled = true
     }
 
     @OnClick(R.id.songFragment_play_button, R.id.songFragment_delete_button, R.id.songFragment_exit_button)
-    @Override
-    fun onClick(v: View) {
-        when (v.getId()) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.songFragment_play_button -> playSong(song!!)
             R.id.songFragment_delete_button -> deleteSong(song)
             R.id.songFragment_exit_button -> exitSongFragment()
         }
     }
 
-    @Override
-    fun onDestroy() {
+    override fun onDestroy() {
         tts!!.shutdown()
-        if (player!!.getMp() != null) {
-            player!!.getMp().release()
+        if (player!!.mp != null) {
+            player!!.mp!!.release()
         }
         super.onDestroy()
     }
 
     companion object {
-        private val SONG_FRAGMENT_BUNDLE_KEY = "song"
+        private const val SONG_FRAGMENT_BUNDLE_KEY = "song"
 
 
         fun newInstance(song: Song): SongFragment {
             val bundle = Bundle()
             bundle.putParcelable(SONG_FRAGMENT_BUNDLE_KEY, song)
             val fragment = SongFragment()
-            fragment.setArguments(bundle)
+            fragment.arguments = bundle
             return fragment
         }
     }
