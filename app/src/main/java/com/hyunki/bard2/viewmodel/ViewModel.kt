@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 
 class ViewModel(application: Application) : AndroidViewModel(application) {
     
-    var currentNote: ClickableNote? = null
+    lateinit var currentNote: ClickableNote
 
     val allSongs: LiveData<List<Song>>
 
@@ -29,7 +29,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         return repositoryImpl.getSong(songTitle)
     }
 
-    fun deleteSong(song: Song?) {
+    fun deleteSong(song: Song) {
         repositoryImpl.deleteSong(song)
     }
 

@@ -32,7 +32,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                 val childCursor = readableDatabase.rawQuery(
                         "SELECT * FROM $TABLE_CHILD WHERE song_name = '$s';", null)
                 val song = Song(s)
-                var note: Note?
+                var note: Note
                 if (childCursor != null) {
                     if (childCursor.moveToFirst()) {
                         do {
@@ -43,7 +43,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                                     childCursor.getString(childCursor.getColumnIndex("note_name"))
                             )
                             song.addNote(note)
-                        } while (childCursor!!.moveToNext())
+                        } while (childCursor.moveToNext())
                     }
                 }
                 returnList.add(song)
@@ -80,7 +80,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
             writableDatabase.execSQL("INSERT INTO " + TABLE_PARENT +
                     "(song_name) VALUES('" + song.songTitle + "')")
 
-            for (note in song.getSongNotes()!!) {
+            for (note in song.getSongNotes()) {
                 writableDatabase.execSQL("INSERT INTO " + TABLE_CHILD +
                         "(raw_note, note_syllable, note_duration, note_name, song_name) " +
                         "VALUES('" + note.rawNote + "', '" + note.syllable + "', '"

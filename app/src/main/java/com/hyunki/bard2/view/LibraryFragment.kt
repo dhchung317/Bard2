@@ -19,8 +19,8 @@ import java.util.ArrayList
 
 class LibraryFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentLibraryBinding
-    private var viewModel: ViewModel? = null
-    private var adapter: LibraryAdapter? = null
+    private lateinit var viewModel: ViewModel
+    private lateinit var adapter: LibraryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class LibraryFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setAdapter() {
-        viewModel!!.allSongs.observe(this, Observer { adapter!!.setSongList(it) })
+        viewModel.allSongs.observe(this, Observer { adapter.setSongList(it) })
     }
 
     companion object {

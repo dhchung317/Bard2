@@ -10,11 +10,11 @@ import androidx.annotation.NonNull
 import com.hyunki.bard2.R
 import com.hyunki.bard2.model.Song
 
-class LibraryAdapter(private var songList: List<Song>?) : RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder>() {
+class LibraryAdapter(private var songList: List<Song>) : RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder>() {
     private var listener: FragmentInteractionListener? = null
 
     override fun getItemCount(): Int {
-        return songList!!.size
+        return songList.size
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): LibraryViewHolder {
@@ -30,7 +30,7 @@ class LibraryAdapter(private var songList: List<Song>?) : RecyclerView.Adapter<L
     }
 
     override fun onBindViewHolder(holder: LibraryViewHolder, position: Int) {
-        holder.onBind(songList!![position],listener)
+        holder.onBind(songList[position],listener)
     }
 
     fun setSongList(songList: List<Song>) {

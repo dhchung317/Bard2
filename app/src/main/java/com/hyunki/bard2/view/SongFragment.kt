@@ -22,11 +22,11 @@ import com.hyunki.bard2.model.Song
 
 class SongFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentSongBinding
-    private var listener: FragmentInteractionListener? = null
-    private var viewModel: ViewModel? = null
-    private var tts: TextToSpeech? = null
-    private var player: SongPlayer? = null
-    private var song: Song? = null
+    private lateinit var listener: FragmentInteractionListener
+    private lateinit var viewModel: ViewModel
+    private lateinit var tts: TextToSpeech
+    private lateinit var player: SongPlayer
+    private lateinit var song: Song
 
    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,20 +44,20 @@ class SongFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSongBinding.inflate(inflater,container,false)
         tts = TextToSpeech(activity) {}
-        player = SongPlayer(activity, tts!!)
+        player = SongPlayer(activity, tts)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var displayNotesString: String? = null
-        val args = arguments!!
+        var displayNotesString: String = ""
+        val args = arguments
+        if (args != null) {
+            song = args.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)!!
+        }
 
-        song = args.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)
-
-        assert(song != null) { "Assertion failed" }
-        for (n in song!!.songNotes) {
-            if (displayNotesString == null) {
+        for (n in song.songNotes) {
+            if (displayNotesString == "") {
                 displayNotesString = "${n.note} "
             } else {
                 displayNotesString += "${n.note} "
@@ -65,20 +65,20 @@ class SongFragment : Fragment(), View.OnClickListener {
         }
 
         binding.songFragmentDisplayNotesTextview.text = displayNotesString
-        binding.songFragmentSongTitleTextview.text = song!!.songTitle
+        binding.songFragmentSongTitleTextview.text = song.songTitle
 
         binding.songFragmentDeleteButton.setOnClickListener(this)
         binding.songFragmentExitButton.setOnClickListener(this)
         binding.songFragmentPlayButton.setOnClickListener(this)
     }
 
-    private fun deleteSong(song: Song?) {
-        viewModel!!.deleteSong(song)
+    private fun deleteSong(song: Song) {
+        viewModel.deleteSong(song)
         Toast.makeText(activity, getString(R.string.song_deleted_message), Toast.LENGTH_SHORT).show()
         assert(fragmentManager != null)
         fragmentManager?.popBackStack(MainActivity.LIBRARY_FRAGMENT_KEY, 1)
         fragmentManager?.popBackStack(MainActivity.SONG_FRAGMENT_KEY, 0)
-        listener!!.displayLibrary()
+        listener.displayLibrary()
     }
 
     private fun exitSongFragment() {
@@ -87,29 +87,25 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     private fun playSong(song: Song) {
 
-        player!!.playSong(viewModel!!.getSong(song.songTitle))
-        if (player!!.mp != null) {
-            while (player!!.mp!!.isPlaying) {
-                binding.songFragmentPlayButton.isEnabled = false
-            }
+        player.playSong(viewModel.getSong(song.songTitle))
+        while (player.mp.isPlaying) {
+            binding.songFragmentPlayButton.isEnabled = false
         }
         binding.songFragmentPlayButton.isEnabled = true
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.songFragment_play_button -> playSong(song!!)
+            R.id.songFragment_play_button -> playSong(song)
             R.id.songFragment_delete_button -> deleteSong(song)
             R.id.songFragment_exit_button -> exitSongFragment()
         }
     }
 
     override fun onDestroy() {
-        tts!!.shutdown()
-        if (player!!.mp != null) {
-            player!!.mp!!.release()
-            player!!.timer?.cancel()
-        }
+        tts.shutdown()
+        player.mp.release()
+        player.timer.cancel()
         super.onDestroy()
     }
 
