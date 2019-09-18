@@ -18,7 +18,7 @@ data class Song(
     fun deleteNote() {
         songNotes.removeAt(songNotes.size - 1)
     }
-    fun getSongNotes(): List<Note>? {
+    fun getSongNotes(): List<Note> {
         return songNotes
     }
 }

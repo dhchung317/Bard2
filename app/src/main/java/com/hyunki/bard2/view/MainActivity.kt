@@ -18,7 +18,7 @@ import com.hyunki.bard2.model.Song
 
 class MainActivity : AppCompatActivity(), FragmentInteractionListener, ClickableNoteListener {
     private lateinit var binding: ActivityMainBinding
-    private var viewModel: ViewModel? = null
+    private lateinit var viewModel: ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
         val drop = Animations.getDropImageAnimation(
                 binding.mainActivitySplashImageView)
         drop?.setAnimationListener(object : Animation.AnimationListener{
-            override fun onAnimationStart(animation: Animation?) = Unit
+            override fun onAnimationStart(animation: Animation) = Unit
             override fun onAnimationEnd(animation: Animation) {
                 binding.mainActivitySplashImageView.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction()
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
     }
 
     override fun setCurrentNote(note: ClickableNote) {
-        viewModel!!.currentNote = note
+        viewModel.currentNote = note
     }
 
     companion object {

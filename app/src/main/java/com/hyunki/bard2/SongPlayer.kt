@@ -13,34 +13,31 @@ import com.hyunki.bard2.model.Song
 import java.util.HashMap
 import java.util.Timer
 import java.util.TimerTask
-import kotlin.concurrent.timerTask
 
 class SongPlayer(private val context: FragmentActivity?, private val tts: TextToSpeech) {
-    private val params = HashMap<String,String>()
-    var mp: MediaPlayer? = null
-    private var playlist: List<Note>? = null
+    private val params by lazy { HashMap<String, String>() }
+    internal var mp: MediaPlayer = MediaPlayer()
+    private lateinit var playlist: List<Note>
     private var i = 0
-    internal var timer: Timer? = null
+    internal var timer: Timer = Timer()
     private var started = false
 
     init {
-        params.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "0.1")
+        params[TextToSpeech.Engine.KEY_PARAM_VOLUME] = "0.1"
         tts.setSpeechRate(.3.toFloat())
-        timer = Timer()
-        mp = MediaPlayer()
     }
 
     fun playSong(song: Song) {
         playlist = song.getSongNotes()
 
-        if (playlist!!.isNotEmpty() && mp!!.isPlaying) {
+        if (playlist.isNotEmpty() && mp.isPlaying) {
             Toast.makeText(context, "media player is playing", Toast.LENGTH_SHORT).show()
-        } else if (playlist!!.isEmpty()) {
+        } else if (playlist.isEmpty()) {
             Toast.makeText(context, "your song is empty!", Toast.LENGTH_SHORT).show()
         } else {
-            if (playlist!!.isNotEmpty() && i < playlist!!.size) {
-                mp = MediaPlayer.create(context, playlist!![0].rawNote!!)
-                playAll(playlist!![0])
+            if (playlist.isNotEmpty() && i < playlist.size) {
+                mp = MediaPlayer.create(context, playlist[0].rawNote!!)
+                playAll(playlist[0])
             }
         }
     }
@@ -51,37 +48,35 @@ class SongPlayer(private val context: FragmentActivity?, private val tts: TextTo
     }
 
     fun playAll(currentNote: Note) {
-
-
-        timer?.schedule( object : TimerTask() {
+        timer.schedule(object : TimerTask() {
             override fun run() {
                 val handler = Handler(Looper.getMainLooper())
                 handler.post {
-                    mp!!.reset()
+                    mp.reset()
                     if (!started) {
-                        mp = MediaPlayer.create(context, playlist!![i].rawNote!!)
-                        mp!!.seekTo(600)
-                        mp!!.start()
-                        vocalize(playlist!![i])
-                        playAll(playlist!![i])
+                        mp = MediaPlayer.create(context, playlist[i].rawNote!!)
+                        mp.seekTo(600)
+                        mp.start()
+                        vocalize(playlist[i])
+                        playAll(playlist[i])
                         started = true
-                    } else if (i < playlist!!.size - 1) {
-                        mp = MediaPlayer.create(context, playlist!![++i].rawNote!!)
-                        mp!!.seekTo(600)
-                        mp!!.start()
-                        vocalize(playlist!![i])
-                        if (i != playlist!!.size - 1) {
-                            playAll(playlist!![i])
+                    } else if (i < playlist.size - 1) {
+                        mp = MediaPlayer.create(context, playlist[++i].rawNote!!)
+                        mp.seekTo(600)
+                        mp.start()
+                        vocalize(playlist[i])
+                        if (i != playlist.size - 1) {
+                            playAll(playlist[i])
                         }
                     }
                 }
             }
         }, currentNote.duration.toLong())
 
-        if (i == playlist!!.size - 1) {
-            mp!!.stop()
+        if (i == playlist.size - 1) {
+            mp.stop()
             started = false
-            timer!!.cancel()
+            timer.cancel()
             i = 0
             timer = Timer()
         }

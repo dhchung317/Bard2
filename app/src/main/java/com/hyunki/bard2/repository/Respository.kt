@@ -5,5 +5,5 @@ import com.hyunki.bard2.model.Song
 interface Repository {
     fun addSong(song: Song)
     fun getSong(songTitle: String): Song
-    fun deleteSong(song: Song?)
+    fun deleteSong(song: Song)
 }

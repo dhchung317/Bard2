@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hyunki.bard2.R
 import com.hyunki.bard2.model.ClickableNote
 
-class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
-    private var listener: ClickableNoteListener? = null
+class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+    private lateinit var listener: ClickableNoteListener
     private var selectedPosition = 0
 
     override fun getItemCount(): Int {
-        return notesList!!.size
+        return notesList.size
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NotesViewHolder {
-        val child = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.note_itemview, viewGroup, false)
-        val context = viewGroup.getContext()
+        val child = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_itemview, viewGroup, false)
+        val context = viewGroup.context
         if (context is ClickableNoteListener) {
             listener = context as ClickableNoteListener
         } else {
@@ -34,11 +34,10 @@ class NotesAdapter(private var notesList: List<ClickableNote>?) : RecyclerView.A
         return NotesViewHolder(child)
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.P)
 
     override fun onBindViewHolder(notesViewHolder: NotesViewHolder, i: Int) {
-        notesViewHolder.onBind(notesList!![i], listener)
+        notesViewHolder.onBind(notesList[i], listener)
         notesViewHolder.itemView.setBackgroundColor(if (selectedPosition == i) Color.LTGRAY else Color.TRANSPARENT)
     }
 
