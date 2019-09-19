@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_compose.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_compose.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/note_itemview.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/note_itemview.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_library.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_library.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_song.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_song.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/song_itemview.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/song_itemview.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_main.xml",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_main.xml"
+    }
+]
