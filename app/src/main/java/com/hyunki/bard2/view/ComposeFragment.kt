@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 
 import com.hyunki.bard2.R
@@ -28,6 +29,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding:FragmentComposeBinding
     private lateinit var listener: FragmentInteractionListener
     private lateinit var viewModel: ViewModel
+    private val notes: MutableList<Note> = ArrayList()
     private lateinit var song: Song
     private var rawId: Int = 0
     private lateinit var noteName: String
@@ -54,10 +56,9 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        song = Song()
         adapter = NotesAdapter(clickableNotes)
         binding.composeRecyclerview.adapter = adapter
-        binding.composeRecyclerview.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.composeRecyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val noteRes = resources.getStringArray(R.array.spinner_array)
         for (i in noteRes.indices) {
             clickableNotes.add(ClickableNote(
@@ -71,7 +72,6 @@ class ComposeFragment : Fragment(), View.OnClickListener {
                             "alto_" + noteRes[i].toLowerCase(),
                             "drawable",
                             context?.packageName)!!
-
             ))
         }
         viewModel.currentNote = clickableNotes[0]
@@ -84,31 +84,30 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun deleteNotes() {
-        if (song.songNotes.isNotEmpty()) {
-            song.deleteNote()
+        if (notes.isNotEmpty()) {
+            notes.remove(notes.last())
         }
+        refreshCurrentNotesDisplay(notes,binding.composeFragmentDisplayCurrentNotesTextView)
+    }
 
-        var onDeleteCurrentNotesDisplay = ""
-        for (n in song.songNotes) {
-            if (binding.composeFragmentDisplayCurrentNotesTextView.text.toString().isEmpty()) {
-                onDeleteCurrentNotesDisplay = n.note + " "
-            } else {
-                onDeleteCurrentNotesDisplay += n.note + " "
+    private fun refreshCurrentNotesDisplay(notes:List<Note>, currentNotesTextView: TextView) {
+        lateinit var newText:String
+        for(n in notes){
+            if(currentNotesTextView.text.isEmpty()){
+                newText = "${n.note} "
+            }else {
+                newText += "${n.note} "
             }
         }
-        binding.composeFragmentDisplayCurrentNotesTextView.text = onDeleteCurrentNotesDisplay
+        currentNotesTextView.text = newText
     }
 
     private fun addNotes() {
-        val currentNote = viewModel!!.currentNote
-        Log.d("danny", viewModel!!.currentNote.toString())
+        val currentNote = viewModel.currentNote
+        Log.d("danny", viewModel.currentNote.toString())
 
-        if (currentNote != null) {
-            rawId = currentNote.rawNote
-        }
-        if (currentNote != null) {
-            noteName = currentNote.note
-        }
+        rawId = currentNote.rawNote
+        noteName = currentNote.note
 
         var durationI = defaultDuration
 
@@ -117,32 +116,22 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         } else {
             durationI = binding.composeFragmentDurationEditText.text.toString()
         }
-        song.addNote(Note(
+        notes.add(Note(
                 rawId,
                 binding.composeFragmentSyllableEditText.text.toString(),
-                Integer.parseInt(durationI.toString()),
+                Integer.parseInt(durationI),
                 noteName)
         )
         binding.composeFragmentDisplayCurrentNotesTextView.append(String.format("%s ", noteName))
     }
 
-    private fun addSong() {
+    private fun addSong(title: String,notes:MutableList<Note>) {
         when {
-            binding.composeFragmentSongTitleEditText.text.toString().isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
-
-            viewModel.getRepository().getSong(
-                    binding.composeFragmentSongTitleEditText.text.toString()).songTitle
-                    == binding.composeFragmentSongTitleEditText.text.toString()
-            -> {
-                val logSong = viewModel.getRepository().getSong(binding.composeFragmentSongTitleEditText.text.toString())
-
+            title.isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
+            viewModel.getRepository().getSong(title).songTitle == title -> {
                 Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
-
-                Log.d("get from database",
-                        logSong.songTitle)
             }else -> {
-                song.songTitle = binding.composeFragmentSongTitleEditText.text.toString()
-                viewModel.addSong(song)
+                viewModel.addSong(Song(title,notes))
                 Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
             }
         }
@@ -150,7 +139,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.composeFragment_addSong_button -> addSong()
+            R.id.composeFragment_addSong_button -> addSong(binding.composeFragmentSongTitleEditText.text.toString(),notes)
             R.id.composeFragment_addNote_button -> addNotes()
             R.id.composeFragment_deleteNote_button -> deleteNotes()
             R.id.composeFragment_library_button -> listener.displayLibrary()

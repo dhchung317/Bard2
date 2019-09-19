@@ -28,7 +28,7 @@ class SongPlayer(private val context: FragmentActivity?, private val tts: TextTo
     }
 
     fun playSong(song: Song) {
-        playlist = song.getSongNotes()
+        playlist = song.songNotes
 
         if (playlist.isNotEmpty() && mp.isPlaying) {
             Toast.makeText(context, "media player is playing", Toast.LENGTH_SHORT).show()
@@ -54,14 +54,14 @@ class SongPlayer(private val context: FragmentActivity?, private val tts: TextTo
                 handler.post {
                     mp.reset()
                     if (!started) {
-                        mp = MediaPlayer.create(context, playlist[i].rawNote!!)
+                        mp = MediaPlayer.create(context, playlist[i].rawNote)
                         mp.seekTo(600)
                         mp.start()
                         vocalize(playlist[i])
                         playAll(playlist[i])
                         started = true
                     } else if (i < playlist.size - 1) {
-                        mp = MediaPlayer.create(context, playlist[++i].rawNote!!)
+                        mp = MediaPlayer.create(context, playlist[++i].rawNote)
                         mp.seekTo(600)
                         mp.start()
                         vocalize(playlist[i])
