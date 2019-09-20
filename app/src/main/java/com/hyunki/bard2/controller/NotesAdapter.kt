@@ -26,7 +26,7 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
         val child = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_itemview, viewGroup, false)
         val context = viewGroup.context
         if (context is ClickableNoteListener) {
-            listener = context as ClickableNoteListener
+            listener = context
         } else {
             throw RuntimeException(context.toString() + context.getString(R.string.clickable_listener_exception_message))
         }
@@ -52,7 +52,7 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
 
         fun onBind(note: ClickableNote, listener: ClickableNoteListener?) {
             noteName.text = note.note
-            noteImage.setImageResource(note.imgSrc!!)
+            noteImage.setImageResource(note.imgSrc)
             itemView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View) {
                     if (adapterPosition == RecyclerView.NO_POSITION) return
@@ -61,9 +61,9 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
                     selectedPosition = adapterPosition
                     notifyItemChanged(selectedPosition)
 
-                    listener!!.setCurrentNote(note)
+                    listener?.setCurrentNote(note)
 
-                    val mp = MediaPlayer.create(itemView.context, note.rawNote!!)
+                    val mp = MediaPlayer.create(itemView.context, note.rawNote)
                     mp.seekTo(600)
                     mp.start()
                 }

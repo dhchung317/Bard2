@@ -11,7 +11,7 @@ import com.hyunki.bard2.R
 import com.hyunki.bard2.model.Song
 
 class LibraryAdapter(private var songList: List<Song>) : RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder>() {
-    private var listener: FragmentInteractionListener? = null
+    private lateinit var listener: FragmentInteractionListener
 
     override fun getItemCount(): Int {
         return songList.size
@@ -43,7 +43,7 @@ class LibraryAdapter(private var songList: List<Song>) : RecyclerView.Adapter<Li
 
         fun onBind(song: Song, listener: FragmentInteractionListener?) {
             songTitle.text = song.songTitle
-            songTitle.setOnClickListener { listener!!.displaySong(song) }
+            songTitle.setOnClickListener { listener?.displaySong(song) }
         }
     }
 }

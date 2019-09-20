@@ -35,7 +35,7 @@ class LibraryFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         adapter = LibraryAdapter(ArrayList())
         binding.libraryFragmentRecyclerview.adapter = adapter
-        binding.libraryFragmentRecyclerview.layoutManager = LinearLayoutManager(getContext())
+        binding.libraryFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
         setAdapter()
 
         binding.libraryFragmentExitButton.setOnClickListener(this)

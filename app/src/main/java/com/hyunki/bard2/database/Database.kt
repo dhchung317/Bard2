@@ -26,6 +26,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                     } while (cursor.moveToNext())
                 }
             }
+
             val liveData = MutableLiveData<List<Song>>()
             val returnList = ArrayList<Song>()
             for (s in titles) {
@@ -37,10 +38,10 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                     if (childCursor.moveToFirst()) {
                         do {
                             note = Note(
-                                    childCursor.getInt(childCursor.getColumnIndex("raw_note")),
-                                    childCursor.getString(childCursor.getColumnIndex("note_syllable")),
-                                    childCursor.getInt(childCursor.getColumnIndex("note_duration")),
-                                    childCursor.getString(childCursor.getColumnIndex("note_name"))
+                                    rawNote = childCursor.getInt(childCursor.getColumnIndex("raw_note")),
+                                    syllable = childCursor.getString(childCursor.getColumnIndex("note_syllable")),
+                                    duration = childCursor.getInt(childCursor.getColumnIndex("note_duration")),
+                                    note = childCursor.getString(childCursor.getColumnIndex("note_name"))
                             )
                             song.addNote(note)
                         } while (childCursor.moveToNext())
@@ -93,7 +94,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
 
     fun getSong(songName: String): Song {
         lateinit var song : Song
-        var note: Note?
+        lateinit var note: Note
         val checker = readableDatabase.rawQuery(
                 "SELECT * FROM $TABLE_PARENT WHERE song_name = '$songName';", null)
         val cursor = readableDatabase.rawQuery(
@@ -138,7 +139,6 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
     }
 
     companion object {
-
         private const val TABLE_PARENT = "Songs"
         private const val TABLE_CHILD = "Notes"
         private const val DATABASE_NAME = "songs.db"

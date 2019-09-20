@@ -111,7 +111,6 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     companion object {
         private const val SONG_FRAGMENT_BUNDLE_KEY = "song"
-
         fun newInstance(song: Song): SongFragment {
             val bundle = Bundle()
             bundle.putParcelable(SONG_FRAGMENT_BUNDLE_KEY, song)

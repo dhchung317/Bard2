@@ -7,18 +7,7 @@ import java.util.ArrayList
 
 @Parcelize
 data class Song(
-        var songTitle: String = "",
-        var songNotes:ArrayList<Note> = ArrayList()
-
+        val songTitle: String,
+        val songNotes: List<Note>
 ):Parcelable{
-
-    fun addNote(note: Note) {
-        songNotes.add(note)
-    }
-    fun deleteNote() {
-        songNotes.removeAt(songNotes.size - 1)
-    }
-    fun getSongNotes(): List<Note> {
-        return songNotes
-    }
 }
