@@ -9,5 +9,4 @@ data class Note(
         val syllable:String,
         val duration: Int = 0,
         val note:String
-
 ):Parcelable

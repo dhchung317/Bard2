@@ -12,7 +12,6 @@ import java.util.ArrayList
 import androidx.lifecycle.MutableLiveData
 
 class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, SCHEMA_VERSION) {
-
     val allSongs: MutableLiveData<List<Song>>
         get() {
             val titles = ArrayList<String>()
@@ -26,7 +25,6 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                     } while (cursor.moveToNext())
                 }
             }
-
             val liveData = MutableLiveData<List<Song>>()
             val returnList = ArrayList<Song>()
             for (s in titles) {
@@ -36,7 +34,6 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                 if (childCursor != null) {
                     if (childCursor.moveToFirst()) {
                         do {
-
                             val note = Note(
                                     rawNote = childCursor.getInt(childCursor.getColumnIndex("raw_note")),
                                     syllable = childCursor.getString(childCursor.getColumnIndex("note_syllable")),
@@ -47,14 +44,13 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                         } while (childCursor.moveToNext())
                     }
                 }
-                returnList.add(Song(s,notes))
+                returnList.add(Song(s, notes))
                 childCursor.close()
             }
             liveData.value = returnList
             cursor.close()
             return liveData
         }
-
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -76,11 +72,9 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
         val cursor = readableDatabase.rawQuery(
                 "SELECT * FROM " + TABLE_PARENT + " WHERE song_name = '" + song.songTitle +
                         "';", null)
-
         if (cursor.count == 0) {
             writableDatabase.execSQL("INSERT INTO " + TABLE_PARENT +
                     "(song_name) VALUES('" + song.songTitle + "')")
-
             for (note in song.songNotes) {
                 writableDatabase.execSQL("INSERT INTO " + TABLE_CHILD +
                         "(raw_note,note_syllable,note_duration,note_name,song_name) " +
@@ -101,7 +95,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
         if (checker.count > 0) {
             if (cursor.moveToFirst()) {
                 do {
-                    notes.add( Note(
+                    notes.add(Note(
                             cursor.getInt(cursor.getColumnIndex("raw_note")),
                             cursor.getString(cursor.getColumnIndex("note_syllable")),
                             cursor.getInt(cursor.getColumnIndex("note_duration")),
@@ -109,12 +103,12 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                     )
                 } while (cursor.moveToNext())
             }
-        }else{
-            return Song("",notes)
+        } else {
+            return Song("", notes)
         }
         checker.close()
         cursor.close()
-        return Song(songName,notes)
+        return Song(songName, notes)
     }
 
     fun deleteSong(songTitle: String) {
@@ -134,8 +128,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
         childCursor.close()
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-    }
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
 
     companion object {
         private const val TABLE_PARENT = "Songs"

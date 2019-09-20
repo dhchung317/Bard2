@@ -21,7 +21,6 @@ class LibraryFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var viewModel: ViewModel
     private lateinit var adapter: LibraryAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
@@ -31,6 +30,7 @@ class LibraryFragment : Fragment(), View.OnClickListener {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = LibraryAdapter(ArrayList())
@@ -41,8 +41,8 @@ class LibraryFragment : Fragment(), View.OnClickListener {
         binding.libraryFragmentExitButton.setOnClickListener(this)
     }
 
-    override fun onClick(v:View){
-        when(v.id){
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.libraryFragment_exit_button -> activity?.onBackPressed()
         }
     }

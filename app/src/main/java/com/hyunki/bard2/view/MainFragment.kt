@@ -22,8 +22,9 @@ class MainFragment : Fragment(), View.OnClickListener {
             listener = context
         }
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentMainBinding.inflate(inflater,container,false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,12 +37,14 @@ class MainFragment : Fragment(), View.OnClickListener {
         binding.mainFragmentComposeButton.setOnClickListener(this)
         binding.mainFragmentLibraryButton.setOnClickListener(this)
     }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.mainFragment_compose_button -> listener.displayComposer()
             R.id.mainFragment_library_button -> listener.displayLibrary()
         }
     }
+
     companion object {
         fun newInstance(): MainFragment {
             return MainFragment()

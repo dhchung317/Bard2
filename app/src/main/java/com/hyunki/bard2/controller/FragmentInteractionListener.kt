@@ -8,5 +8,4 @@ interface FragmentInteractionListener {
     fun displayComposer()
 
     fun displayLibrary()
-
 }

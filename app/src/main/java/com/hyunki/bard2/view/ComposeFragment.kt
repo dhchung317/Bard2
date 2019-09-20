@@ -2,7 +2,6 @@ package com.hyunki.bard2.view
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 
 import android.util.Log
@@ -27,7 +26,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ComposeFragment : Fragment(), View.OnClickListener {
-    private lateinit var binding:FragmentComposeBinding
+    private lateinit var binding: FragmentComposeBinding
     private lateinit var listener: FragmentInteractionListener
     private lateinit var viewModel: ViewModel
     private lateinit var notes: MutableList<Note>
@@ -49,8 +48,9 @@ class ComposeFragment : Fragment(), View.OnClickListener {
             listener = context
         }
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentComposeBinding.inflate(inflater,container,false)
+        binding = FragmentComposeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -66,7 +66,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         setListeners()
     }
 
-    private fun setClickableNotes(noteRes: Array<String>){
+    private fun setClickableNotes(noteRes: Array<String>) {
         for (i in noteRes.indices) {
             clickableNotes.add(ClickableNote(
                     note = noteRes[i],
@@ -81,9 +81,9 @@ class ComposeFragment : Fragment(), View.OnClickListener {
                             context?.packageName)!!
             ))
         }
-
     }
-    private fun setListeners(){
+
+    private fun setListeners() {
         binding.composeFragmentAddSongButton.setOnClickListener(this)
         binding.composeFragmentAddNoteButton.setOnClickListener(this)
         binding.composeFragmentDeleteNoteButton.setOnClickListener(this)
@@ -94,15 +94,15 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         if (notes.isNotEmpty()) {
             notes.remove(notes.last())
         }
-        refreshCurrentNotesDisplay(notes,binding.composeFragmentDisplayCurrentNotesTextView)
+        refreshCurrentNotesDisplay(notes, binding.composeFragmentDisplayCurrentNotesTextView)
     }
 
-    private fun refreshCurrentNotesDisplay(notes:List<Note>, currentNotesTextView: TextView) {
+    private fun refreshCurrentNotesDisplay(notes: List<Note>, currentNotesTextView: TextView) {
         var newText = ""
-        for(n in notes){
-            if(currentNotesTextView.text.isEmpty()){
+        for (n in notes) {
+            if (currentNotesTextView.text.isEmpty()) {
                 newText = "${n.note} "
-            }else {
+            } else {
                 newText += "${n.note} "
             }
         }
@@ -112,10 +112,8 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     private fun addNotes() {
         val currentNote = viewModel.currentNote
         Log.d("danny", viewModel.currentNote.toString())
-
         rawId = currentNote.rawNote
         noteName = currentNote.note
-
         val durationI = checkDuration(binding.composeFragmentDurationEditText.text.toString())
         notes.add(Note(
                 rawId,
@@ -126,21 +124,22 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         binding.composeFragmentDisplayCurrentNotesTextView.append(String.format("%s ", noteName))
     }
 
-    private fun checkDuration(d:String): String{
-        return if(d.isEmpty()){
+    private fun checkDuration(d: String): String {
+        return if (d.isEmpty()) {
             defaultDuration
-        }else{
+        } else {
             d
         }
     }
 
-    private fun addSong(title: String,notes:MutableList<Note>) {
+    private fun addSong(title: String, notes: MutableList<Note>) {
         when {
             title.isEmpty() -> Toast.makeText(activity, getString(R.string.no_title_entered_message), Toast.LENGTH_SHORT).show()
             viewModel.getRepository().getSong(title).songTitle == title -> {
                 Toast.makeText(activity, getString(R.string.title_exists_message), Toast.LENGTH_SHORT).show()
-            }else -> {
-                viewModel.addSong(Song(title,notes))
+            }
+            else -> {
+                viewModel.addSong(Song(title, notes))
                 Toast.makeText(activity, getString(R.string.song_added_message), Toast.LENGTH_SHORT).show()
             }
         }
@@ -148,7 +147,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.composeFragment_addSong_button -> addSong(binding.composeFragmentSongTitleEditText.text.toString(),notes)
+            R.id.composeFragment_addSong_button -> addSong(binding.composeFragmentSongTitleEditText.text.toString(), notes)
             R.id.composeFragment_addNote_button -> addNotes()
             R.id.composeFragment_deleteNote_button -> deleteNotes()
             R.id.composeFragment_library_button -> listener.displayLibrary()

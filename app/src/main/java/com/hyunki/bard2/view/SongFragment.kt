@@ -27,8 +27,7 @@ class SongFragment : Fragment(), View.OnClickListener {
     private lateinit var tts: TextToSpeech
     private lateinit var player: SongPlayer
     private lateinit var song: Song
-
-   override fun onCreate(@Nullable savedInstanceState: Bundle?) {
+    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
     }
@@ -42,7 +41,7 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     @Nullable
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentSongBinding.inflate(inflater,container,false)
+        binding = FragmentSongBinding.inflate(inflater, container, false)
         tts = TextToSpeech(activity) {}
         player = SongPlayer(activity, tts)
         return binding.root
@@ -50,12 +49,16 @@ class SongFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var displayNotesString: String = ""
         val args = arguments
         if (args != null) {
             song = args.getParcelable(SONG_FRAGMENT_BUNDLE_KEY)!!
         }
+        setViews()
+        setListeners()
+    }
 
+    private fun setViews() {
+        var displayNotesString = ""
         for (n in song.songNotes) {
             if (displayNotesString == "") {
                 displayNotesString = "${n.note} "
@@ -63,10 +66,11 @@ class SongFragment : Fragment(), View.OnClickListener {
                 displayNotesString += "${n.note} "
             }
         }
-
         binding.songFragmentDisplayNotesTextview.text = displayNotesString
         binding.songFragmentSongTitleTextview.text = song.songTitle
+    }
 
+    private fun setListeners() {
         binding.songFragmentDeleteButton.setOnClickListener(this)
         binding.songFragmentExitButton.setOnClickListener(this)
         binding.songFragmentPlayButton.setOnClickListener(this)
@@ -85,7 +89,6 @@ class SongFragment : Fragment(), View.OnClickListener {
     }
 
     private fun playSong(song: Song) {
-
         player.playSong(viewModel.getSong(song.songTitle))
         while (player.mp.isPlaying) {
             binding.songFragmentPlayButton.isEnabled = false
