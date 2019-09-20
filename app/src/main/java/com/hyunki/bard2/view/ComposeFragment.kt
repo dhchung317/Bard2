@@ -2,6 +2,7 @@ package com.hyunki.bard2.view
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 
 import android.util.Log
@@ -32,13 +33,13 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     private lateinit var notes: MutableList<Note>
     private var rawId: Int = 0
     private lateinit var noteName: String
-    private lateinit var defaultDuration: String
+    private val defaultDuration = "1000"
     private lateinit var adapter: NotesAdapter
     private val clickableNotes = ArrayList<ClickableNote>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        defaultDuration = "1000"
+
         viewModel = ViewModelProviders.of(this.activity!!).get(ViewModel::class.java)
     }
 
@@ -97,7 +98,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun refreshCurrentNotesDisplay(notes:List<Note>, currentNotesTextView: TextView) {
-        var newText:String = ""
+        var newText = ""
         for(n in notes){
             if(currentNotesTextView.text.isEmpty()){
                 newText = "${n.note} "
@@ -115,13 +116,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         rawId = currentNote.rawNote
         noteName = currentNote.note
 
-        var durationI = defaultDuration
-
-        if (binding.composeFragmentDurationEditText.text.toString().isEmpty()) {
-            Toast.makeText(activity, getString(R.string.no_duration_entered_message), Toast.LENGTH_SHORT).show()
-        } else {
-            durationI = binding.composeFragmentDurationEditText.text.toString()
-        }
+        val durationI = checkDuration(binding.composeFragmentDurationEditText.text.toString())
         notes.add(Note(
                 rawId,
                 binding.composeFragmentSyllableEditText.text.toString(),
@@ -129,6 +124,14 @@ class ComposeFragment : Fragment(), View.OnClickListener {
                 noteName)
         )
         binding.composeFragmentDisplayCurrentNotesTextView.append(String.format("%s ", noteName))
+    }
+
+    private fun checkDuration(d:String): String{
+        return if(d.isEmpty()){
+            defaultDuration
+        }else{
+            d
+        }
     }
 
     private fun addSong(title: String,notes:MutableList<Note>) {
