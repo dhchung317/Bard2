@@ -19,16 +19,19 @@ import com.hyunki.bard2.model.Song
 class MainActivity : AppCompatActivity(), FragmentInteractionListener, ClickableNoteListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: ViewModel
+    private lateinit var drop:Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
 
-        val drop = Animations.getDropImageAnimation(
+        drop = Animations.getDropImageAnimation(
                 binding.mainActivitySplashImageView)
-        drop?.setAnimationListener(object : Animation.AnimationListener{
+
+        drop.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationStart(animation: Animation) = Unit
             override fun onAnimationEnd(animation: Animation) {
                 binding.mainActivitySplashImageView.visibility = View.INVISIBLE
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity(), FragmentInteractionListener, Clickable
             }
             override fun onAnimationRepeat(animation: Animation) = Unit
         })
+
         binding.mainActivitySplashImageView.startAnimation(drop)
     }
 

@@ -2,13 +2,11 @@ package com.hyunki.bard2.controller
 
 import android.graphics.Color
 import android.media.MediaPlayer
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
 import com.hyunki.bard2.R
@@ -33,8 +31,6 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
 
         return NotesViewHolder(child)
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
 
     override fun onBindViewHolder(notesViewHolder: NotesViewHolder, i: Int) {
         notesViewHolder.onBind(notesList[i], listener)

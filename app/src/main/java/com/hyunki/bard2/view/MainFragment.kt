@@ -36,8 +36,8 @@ class MainFragment : Fragment(), View.OnClickListener {
         binding.mainFragmentComposeButton.setOnClickListener(this)
         binding.mainFragmentLibraryButton.setOnClickListener(this)
     }
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.mainFragment_compose_button -> listener.displayComposer()
             R.id.mainFragment_library_button -> listener.displayLibrary()
         }

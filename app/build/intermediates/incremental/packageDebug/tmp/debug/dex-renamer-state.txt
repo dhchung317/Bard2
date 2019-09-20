@@ -1,4 +1,4 @@
-#Tue Sep 17 22:28:46 EDT 2019
+#Thu Sep 19 22:59:10 EDT 2019
 base.0=/Users/hyunki/Desktop/Bard2/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex

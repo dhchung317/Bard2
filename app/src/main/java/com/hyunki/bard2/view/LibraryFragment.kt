@@ -41,8 +41,8 @@ class LibraryFragment : Fragment(), View.OnClickListener {
         binding.libraryFragmentExitButton.setOnClickListener(this)
     }
 
-    override fun onClick(v:View?){
-        when(v?.id){
+    override fun onClick(v:View){
+        when(v.id){
             R.id.libraryFragment_exit_button -> activity?.onBackPressed()
         }
     }

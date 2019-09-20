@@ -22,15 +22,14 @@ import com.hyunki.bard2.viewmodel.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hyunki.bard2.databinding.FragmentComposeBinding
-
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ComposeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding:FragmentComposeBinding
     private lateinit var listener: FragmentInteractionListener
     private lateinit var viewModel: ViewModel
-    private val notes: MutableList<Note> = ArrayList()
-    private lateinit var song: Song
+    private lateinit var notes: MutableList<Note>
     private var rawId: Int = 0
     private lateinit var noteName: String
     private lateinit var defaultDuration: String
@@ -56,27 +55,34 @@ class ComposeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        notes = ArrayList()
         adapter = NotesAdapter(clickableNotes)
         binding.composeRecyclerview.adapter = adapter
         binding.composeRecyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val noteRes = resources.getStringArray(R.array.spinner_array)
+        setClickableNotes(resources.getStringArray(R.array.spinner_array))
+        adapter.setNotesList(clickableNotes)
+        viewModel.currentNote = clickableNotes[0]
+        setListeners()
+    }
+
+    private fun setClickableNotes(noteRes: Array<String>){
         for (i in noteRes.indices) {
             clickableNotes.add(ClickableNote(
-                    noteRes[i],
-                    activity?.resources?.getIdentifier(
-                            noteRes[i].toLowerCase(),
+                    note = noteRes[i],
+                    rawNote = activity?.resources?.getIdentifier(
+                            noteRes[i].toLowerCase(Locale.getDefault()),
                             "raw",
                             activity!!.packageName
                     )!!,
-                    activity?.resources?.getIdentifier(
-                            "alto_" + noteRes[i].toLowerCase(),
+                    imgSrc = activity?.resources?.getIdentifier(
+                            "alto_" + noteRes[i].toLowerCase(Locale.getDefault()),
                             "drawable",
                             context?.packageName)!!
             ))
         }
-        viewModel.currentNote = clickableNotes[0]
-        adapter.setNotesList(clickableNotes)
 
+    }
+    private fun setListeners(){
         binding.composeFragmentAddSongButton.setOnClickListener(this)
         binding.composeFragmentAddNoteButton.setOnClickListener(this)
         binding.composeFragmentDeleteNoteButton.setOnClickListener(this)
@@ -91,7 +97,7 @@ class ComposeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun refreshCurrentNotesDisplay(notes:List<Note>, currentNotesTextView: TextView) {
-        lateinit var newText:String
+        var newText:String = ""
         for(n in notes){
             if(currentNotesTextView.text.isEmpty()){
                 newText = "${n.note} "
@@ -137,8 +143,8 @@ class ComposeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.composeFragment_addSong_button -> addSong(binding.composeFragmentSongTitleEditText.text.toString(),notes)
             R.id.composeFragment_addNote_button -> addNotes()
             R.id.composeFragment_deleteNote_button -> deleteNotes()
