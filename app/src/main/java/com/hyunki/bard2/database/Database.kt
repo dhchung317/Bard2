@@ -32,22 +32,22 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
             for (s in titles) {
                 val childCursor = readableDatabase.rawQuery(
                         "SELECT * FROM $TABLE_CHILD WHERE song_name = '$s';", null)
-                val song = Song(s)
-                var note: Note
+                val notes: MutableList<Note> = ArrayList()
                 if (childCursor != null) {
                     if (childCursor.moveToFirst()) {
                         do {
-                            note = Note(
+
+                            val note = Note(
                                     rawNote = childCursor.getInt(childCursor.getColumnIndex("raw_note")),
                                     syllable = childCursor.getString(childCursor.getColumnIndex("note_syllable")),
                                     duration = childCursor.getInt(childCursor.getColumnIndex("note_duration")),
                                     note = childCursor.getString(childCursor.getColumnIndex("note_name"))
                             )
-                            song.addNote(note)
+                            notes.add(note)
                         } while (childCursor.moveToNext())
                     }
                 }
-                returnList.add(song)
+                returnList.add(Song(s,notes))
                 childCursor.close()
             }
             liveData.value = returnList
@@ -81,9 +81,9 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
             writableDatabase.execSQL("INSERT INTO " + TABLE_PARENT +
                     "(song_name) VALUES('" + song.songTitle + "')")
 
-            for (note in song.getSongNotes()) {
+            for (note in song.songNotes) {
                 writableDatabase.execSQL("INSERT INTO " + TABLE_CHILD +
-                        "(raw_note, note_syllable, note_duration, note_name, song_name) " +
+                        "(raw_note,note_syllable,note_duration,note_name,song_name) " +
                         "VALUES('" + note.rawNote + "', '" + note.syllable + "', '"
                         + note.duration + "','" + note.note
                         + "', '" + song.songTitle + "');")
@@ -93,30 +93,28 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
     }
 
     fun getSong(songName: String): Song {
-        lateinit var song : Song
-        lateinit var note: Note
+        val notes: MutableList<Note> = ArrayList()
         val checker = readableDatabase.rawQuery(
                 "SELECT * FROM $TABLE_PARENT WHERE song_name = '$songName';", null)
         val cursor = readableDatabase.rawQuery(
                 "SELECT * FROM $TABLE_CHILD WHERE song_name = '$songName';", null)
         if (checker.count > 0) {
-            song = Song(songName)
             if (cursor.moveToFirst()) {
                 do {
-                    note = Note(
+                    notes.add( Note(
                             cursor.getInt(cursor.getColumnIndex("raw_note")),
                             cursor.getString(cursor.getColumnIndex("note_syllable")),
                             cursor.getInt(cursor.getColumnIndex("note_duration")),
                             cursor.getString(cursor.getColumnIndex("note_name")))
-                    song.addNote(note)
+                    )
                 } while (cursor.moveToNext())
             }
         }else{
-            song = Song("")
+            return Song("",notes)
         }
         checker.close()
         cursor.close()
-        return song
+        return Song(songName,notes)
     }
 
     fun deleteSong(songTitle: String) {
@@ -133,6 +131,7 @@ class Database(@Nullable context: Context?) : SQLiteOpenHelper(context, DATABASE
                     "DELETE FROM $TABLE_CHILD WHERE song_name = '$songTitle';")
         } while (childCursor.moveToNext())
         cursor.close()
+        childCursor.close()
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

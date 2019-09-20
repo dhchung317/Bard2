@@ -75,7 +75,6 @@ class SongFragment : Fragment(), View.OnClickListener {
     private fun deleteSong(song: Song) {
         viewModel.deleteSong(song)
         Toast.makeText(activity, getString(R.string.song_deleted_message), Toast.LENGTH_SHORT).show()
-        assert(fragmentManager != null)
         fragmentManager?.popBackStack(MainActivity.LIBRARY_FRAGMENT_KEY, 1)
         fragmentManager?.popBackStack(MainActivity.SONG_FRAGMENT_KEY, 0)
         listener.displayLibrary()
@@ -94,8 +93,8 @@ class SongFragment : Fragment(), View.OnClickListener {
         binding.songFragmentPlayButton.isEnabled = true
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(v: View) {
+        when (v.id) {
             R.id.songFragment_play_button -> playSong(song)
             R.id.songFragment_delete_button -> deleteSong(song)
             R.id.songFragment_exit_button -> exitSongFragment()

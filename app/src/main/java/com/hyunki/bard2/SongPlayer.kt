@@ -36,7 +36,7 @@ class SongPlayer(private val context: FragmentActivity?, private val tts: TextTo
             Toast.makeText(context, "your song is empty!", Toast.LENGTH_SHORT).show()
         } else {
             if (playlist.isNotEmpty() && i < playlist.size) {
-                mp = MediaPlayer.create(context, playlist[0].rawNote!!)
+                mp = MediaPlayer.create(context, playlist[0].rawNote)
                 playAll(playlist[0])
             }
         }

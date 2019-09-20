@@ -11,17 +11,17 @@ object Animations {
     private lateinit var dropTitle: Animation
     private lateinit var popUp: Animation
 
-    fun getDropImageAnimation(v: View): Animation? {
+    fun getDropImageAnimation(v: View): Animation {
             dropImage = AnimationUtils.loadAnimation(v.context, R.anim.drop_image)
         return dropImage
     }
 
-    private fun getDropTitleAnimation(v: View): Animation? {
+    private fun getDropTitleAnimation(v: View): Animation {
             dropTitle = AnimationUtils.loadAnimation(v.context, R.anim.drop_title)
         return dropTitle
     }
 
-    private fun getPopUpAnimation(v: View): Animation? {
+    private fun getPopUpAnimation(v: View): Animation {
             popUp = AnimationUtils.loadAnimation(v.context, R.anim.popup)
         return popUp
     }
