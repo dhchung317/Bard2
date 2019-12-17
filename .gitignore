@@ -1,4 +1,5 @@
 *.iml
+.gitattributes
 .gradle
 /local.properties
 /.idea
