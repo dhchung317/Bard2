@@ -10,12 +10,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 import com.hyunki.bard2.R
-import com.hyunki.bard2.databinding.NoteItemviewBinding
 import com.hyunki.bard2.model.ClickableNote
 
 class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     private lateinit var listener: ClickableNoteListener
-    private lateinit var binding:NoteItemviewBinding
     private var selectedPosition = 0
 
     override fun getItemCount(): Int {
@@ -23,16 +21,15 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NotesViewHolder {
+        val child = LayoutInflater.from(viewGroup.context).inflate(R.layout.note_itemview, viewGroup, false)
         val context = viewGroup.context
         if (context is ClickableNoteListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + context.getString(R.string.clickable_listener_exception_message))
         }
-        binding = NoteItemviewBinding.inflate(
-                LayoutInflater.from(context),viewGroup, false
-        )
-        return NotesViewHolder(binding.root)
+
+        return NotesViewHolder(child)
     }
 
     override fun onBindViewHolder(notesViewHolder: NotesViewHolder, i: Int) {
@@ -46,8 +43,8 @@ class NotesAdapter(private var notesList: List<ClickableNote>) : RecyclerView.Ad
     }
 
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val noteName: TextView = binding.noteNameTextview
-        private val noteImage: ImageView = binding.noteImageView
+        private var noteName: TextView = itemView.findViewById(R.id.noteName_textview)
+        private var noteImage: ImageView = itemView.findViewById(R.id.note_imageView)
 
         fun onBind(note: ClickableNote, listener: ClickableNoteListener?) {
             noteName.text = note.note
