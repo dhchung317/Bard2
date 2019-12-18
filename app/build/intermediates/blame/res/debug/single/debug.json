@@ -1,0 +1,222 @@
+[
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/anim_popup.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/anim/popup.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_fragment_compose.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_compose.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_library.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/library.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_dflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_dflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_fragment_library.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_library.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_f3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/f3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_e3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_e3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_compose.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/compose.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_fragment_main.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_main.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_bardlogo.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/bardlogo.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/anim_drop_title.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/anim/drop_title.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_bflat3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/bflat3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_gflat3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/gflat3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_d3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/d3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_aflat3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/aflat3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_bflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_bflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_g3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_g3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_fragment_song.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/fragment_song.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_play.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/play.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_cflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_cflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_c3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/c3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_f3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_f3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_note_itemview.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/note_itemview.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_dflat3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/dflat3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_a3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_a3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_d3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_d3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_b3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/b3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_eflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_eflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_e3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/e3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/font_vinque.ttf.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/font/vinque.ttf"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_aflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_aflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_c3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_c3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_a3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/a3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_button.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/button.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/layout_song_itemview.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/layout/song_itemview.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_eflat3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/eflat3.ogg"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_gflat3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_gflat3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/drawable_alto_b3.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/drawable/alto_b3.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/anim_drop_image.xml.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/anim/drop_image.xml"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyunki/Desktop/Bard2/app/build/intermediates/res/merged/debug/raw_g3.ogg.flat",
+        "source": "/Users/hyunki/Desktop/Bard2/app/src/main/res/raw/g3.ogg"
+    }
+]
